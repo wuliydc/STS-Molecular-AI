@@ -51,7 +51,11 @@
 
 ## Outstanding Items Before Submission
 1. [ ] Expand references to 40-50 (add recent STS molecular diagnostics papers)
-2. [ ] Add IRB approval number
+2. [ ] Add IRB approval number — **[ACTION REQUIRED before submission]**
+   - Institution: NCC/NCRCC, Chinese Academy of Medical Sciences (中国医学科学院肿瘤医院)
+   - Apply to: 医院伦理委员会 → 回顾性研究豁免/快速审查
+   - Manuscript placeholder: `[IRB-PENDING]` (搜索替换即可)
+   - 表单参考: http://www.cicams.ac.cn/ethics
 3. [ ] Create GitHub repository and update URL in manuscript
 4. [ ] Register dataset DOI (Zenodo or Figshare)
 5. [ ] External validation cohort (if available from collaborating institution)
