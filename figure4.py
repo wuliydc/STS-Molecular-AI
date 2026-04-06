@@ -23,7 +23,8 @@ from sklearn.metrics import roc_auc_score, roc_curve, auc
 from sklearn.decomposition import PCA
 
 warnings.filterwarnings('ignore')
-plt.rcParams['font.family'] = ['Microsoft YaHei', 'SimHei', 'DejaVu Sans']
+from plot_style import TUMOR_EN
+plt.rcParams['font.family'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ── 读取患者级数据 ────────────────────────────────────────
@@ -276,7 +277,7 @@ for plot_i, case_idx in enumerate(case_indices[:3]):
     top5_shap   = sv[top5_idx]
 
     y_base = 0.92 - plot_i * 0.32
-    ax_d.text(0.02, y_base, f'Case {plot_i+1}: {tumor_name[:20]}',
+    ax_d.text(0.02, y_base, f'Case {plot_i+1}: {TUMOR_EN.get(tumor_name, tumor_name)[:28]}',
               transform=ax_d.transAxes, fontsize=9, fontweight='bold', color='#333')
 
     for j, (fname, fval) in enumerate(zip(top5_names, top5_shap)):
@@ -301,7 +302,7 @@ cmap = plt.cm.get_cmap('tab10', n_classes)
 for cls_idx, tumor_name in enumerate(le.classes_):
     mask = y == cls_idx
     ax_e.scatter(X_2d[mask, 0], X_2d[mask, 1],
-                 c=[cmap(cls_idx)], label=tumor_name[:14],
+                 c=[cmap(cls_idx)], label=TUMOR_EN.get(tumor_name, tumor_name)[:22],
                  s=40, alpha=0.7, edgecolors='white', linewidths=0.5)
 ax_e.set_xlabel(f'PC1 ({pca.explained_variance_ratio_[0]*100:.1f}%)', fontsize=10)
 ax_e.set_ylabel(f'PC2 ({pca.explained_variance_ratio_[1]*100:.1f}%)', fontsize=10)

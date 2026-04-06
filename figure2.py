@@ -10,8 +10,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 from collections import defaultdict, Counter
+from plot_style import TUMOR_EN
 
-plt.rcParams['font.family'] = ['Microsoft YaHei', 'SimHei', 'DejaVu Sans']
+plt.rcParams['font.family'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ── 读取数据 ──────────────────────────────────────────────
@@ -211,7 +212,7 @@ ax_b.axvline(0.5, color='gray', linestyle='--', alpha=0.5)
 # ── Panel C: 肿瘤亚型×检测方法气泡矩阵 ──────────────────
 ax_c = axes[1, 0]
 matrix = np.array([[tumor_method_matrix[t][m] for m in methods_list] for t in top_tumors])
-tumor_labels_short = [t[:14] for t in top_tumors]
+tumor_labels_short = [TUMOR_EN.get(t, t)[:22] for t in top_tumors]
 
 for i, tumor in enumerate(top_tumors):
     for j, method in enumerate(methods_list):

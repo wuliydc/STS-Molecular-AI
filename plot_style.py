@@ -79,3 +79,66 @@ def panel_label(ax, label, x=-0.12, y=1.05):
             fontsize=14, fontweight='bold', va='top', ha='left')
 
 apply_style()
+
+# ── Tumour type name translations (Chinese → English) ─────
+TUMOR_EN = {
+    # Lipomatous tumours
+    '黏液样脂肪肉瘤':       'Myxoid liposarcoma',
+    '黏液样/圆细胞脂肪肉瘤': 'Myxoid/round cell liposarcoma',
+    '去分化脂肪肉瘤':       'Dedifferentiated liposarcoma',
+    '高分化脂肪肉瘤':       'Well-differentiated liposarcoma',
+    '多形性脂肪肉瘤':       'Pleomorphic liposarcoma',
+    '脂肪肉瘤':             'Liposarcoma, NOS',
+    # Synovial sarcoma
+    '滑膜肉瘤':             'Synovial sarcoma',
+    # Small round cell tumours
+    '尤文肉瘤':             'Ewing sarcoma',
+    '圆细胞肉瘤':           'Round cell sarcoma',
+    '促纤维增生性小圆细胞肿瘤': 'DSRCT',
+    # Rhabdomyosarcoma
+    '横纹肌肉瘤':           'Rhabdomyosarcoma',
+    '胚胎性横纹肌肉瘤':     'Embryonal RMS',
+    '腺泡状横纹肌肉瘤':     'Alveolar RMS',
+    # Leiomyosarcoma
+    '平滑肌肉瘤':           'Leiomyosarcoma',
+    # Undifferentiated
+    '未分化肉瘤':           'Undifferentiated pleomorphic sarcoma',
+    '未分化多形性肉瘤':     'Undifferentiated pleomorphic sarcoma',
+    # Bone-forming
+    '骨肉瘤':               'Osteosarcoma',
+    '软骨肉瘤':             'Chondrosarcoma',
+    # Fibroblastic / myofibroblastic
+    '孤立性纤维性肿瘤':     'Solitary fibrous tumour',
+    '梭形细胞肿瘤':         'Spindle cell sarcoma',
+    '纤维肉瘤':             'Fibrosarcoma',
+    '低级别纤维肉瘤':       'Low-grade fibrosarcoma',
+    '黏液纤维肉瘤':         'Myxofibrosarcoma',
+    '隆突性皮肤纤维肉瘤':   'DFSP',
+    '炎性肌纤维母细胞瘤':   'IMT',
+    '肌纤维母细胞肿瘤':     'Myofibroblastic tumour',
+    # Vascular
+    '血管肉瘤':             'Angiosarcoma',
+    # Nerve sheath
+    '恶性外周神经鞘瘤':     'MPNST',
+    # Clear cell / epithelioid / alveolar soft parts
+    '腺泡状软组织肉瘤':     'Alveolar soft part sarcoma',
+    '透明细胞肉瘤':         'Clear cell sarcoma',
+    '上皮样肉瘤':           'Epithelioid sarcoma',
+    # GIST
+    '胃肠道间质瘤':         'GIST',
+    # Joint
+    '腱鞘巨细胞瘤':         'Tenosynovial giant cell tumour',
+    # Misc
+    '软组织肉瘤':           'Soft tissue sarcoma, NOS',
+    '会诊':                 'Consultation',
+    '待明确':               'Pending',
+    '良性肿瘤':             'Benign tumour',
+    '未知':                 'Unknown',
+}
+
+def tumor_en(name, maxlen=None):
+    """Translate a Chinese tumour type name to English; fall back to original."""
+    result = TUMOR_EN.get(name, name)
+    if maxlen:
+        result = result[:maxlen]
+    return result

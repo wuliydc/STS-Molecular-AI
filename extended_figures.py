@@ -22,7 +22,7 @@ from sklearn.calibration import calibration_curve
 import shap, scipy.stats as stats
 
 warnings.filterwarnings('ignore')
-from plot_style import apply_style, save_figure, panel_label, METHOD_COLORS, COLORS
+from plot_style import apply_style, save_figure, panel_label, METHOD_COLORS, COLORS, TUMOR_EN
 apply_style()
 
 # ── 数据加载 ──────────────────────────────────────────────
@@ -131,11 +131,11 @@ for bar,val in zip(bars,[v for _,v in top_s[::-1]]):
     ax.text(bar.get_width()+3, bar.get_y()+bar.get_height()/2, str(val), va='center', fontsize=9)
 ax.set_xlabel('Number of patients'); ax.set_title('Testing strategy distribution', pad=8)
 
-# D: 肿瘤亚型分布
+# D: Tumour subtype distribution
 ax = axes[1,0]; panel_label(ax,'D')
 top12 = tumor_counts.most_common(12)
 cols_t = plt.cm.tab20(np.linspace(0,1,len(top12)))
-ax.barh([t[:16] for t,_ in top12[::-1]], [v for _,v in top12[::-1]],
+ax.barh([TUMOR_EN.get(t, t)[:24] for t,_ in top12[::-1]], [v for _,v in top12[::-1]],
         color=cols_t[::-1], edgecolor='white', lw=0.5)
 ax.set_xlabel('Number of patients'); ax.set_title('Tumour subtype distribution (Top 12)', pad=8)
 
@@ -147,7 +147,7 @@ bp = ax.boxplot(age_by_t, patch_artist=True, medianprops=dict(color='#D55E00',lw
                 whiskerprops=dict(lw=1.5), capprops=dict(lw=1.5))
 cols_box = plt.cm.Set3(np.linspace(0,1,len(top6)))
 for patch,col in zip(bp['boxes'],cols_box): patch.set_facecolor(col); patch.set_alpha(0.75)
-ax.set_xticklabels([t[:10] for t in top6], rotation=30, ha='right', fontsize=8.5)
+ax.set_xticklabels([TUMOR_EN.get(t, t)[:16] for t in top6], rotation=30, ha='right', fontsize=8.5)
 ax.set_ylabel('Age (years)'); ax.set_title('Age by tumour subtype', pad=8)
 
 # F: 年度×方法热图
@@ -316,7 +316,7 @@ for i, cls_name in enumerate(le.classes_):
     if y_bin_te[:,i].sum() < 2: continue
     fpr_i,tpr_i,_ = roc_curve(y_bin_te[:,i], probs_te[:,i])
     roc_auc_i = auc(fpr_i,tpr_i)
-    ax.plot(fpr_i,tpr_i,color=cmap_ef3(i),lw=1.8,label=f'{cls_name[:14]} ({roc_auc_i:.2f})')
+    ax.plot(fpr_i,tpr_i,color=cmap_ef3(i),lw=1.8,label=f'{TUMOR_EN.get(cls_name, cls_name)[:18]} ({roc_auc_i:.2f})')
 ax.plot([0,1],[0,1],'k--',alpha=0.35,lw=1)
 ax.set_xlabel('False Positive Rate'); ax.set_ylabel('True Positive Rate')
 ax.set_title('Per-class ROC curves\n(Logistic Regression, holdout set)', pad=8)
@@ -350,7 +350,7 @@ for pi in range(n_show):
     cols_shap = ['#0072B2' if 'F:' in n else '#009E73' if 'R:' in n or 'Fus:' in n
                  else '#E69F00' if 'D:' in n else '#999999' for n in top_names]
     ax.barh(top_names[::-1], top_vals[::-1], color=cols_shap[::-1], edgecolor='white', lw=0.5)
-    ax.set_title(le.classes_[pi][:22], fontsize=10, fontweight='bold', pad=6)
+    ax.set_title(TUMOR_EN.get(le.classes_[pi], le.classes_[pi])[:26], fontsize=10, fontweight='bold', pad=6)
     ax.set_xlabel('Mean |SHAP|', fontsize=9)
 
 # G: 校准曲线
@@ -360,7 +360,7 @@ for cls_i in range(min(4, n_classes)):
     try:
         prob_true,prob_pred = calibration_curve(y_bin_te[:,cls_i], probs_te[:,cls_i],
                                                  n_bins=8, strategy='quantile')
-        ax.plot(prob_pred, prob_true, 'o-', lw=2, label=le.classes_[cls_i][:14])
+        ax.plot(prob_pred, prob_true, 'o-', lw=2, label=TUMOR_EN.get(le.classes_[cls_i], le.classes_[cls_i])[:20])
     except: pass
 ax.plot([0,1],[0,1],'k--',alpha=0.5,label='Perfect calibration')
 ax.set_xlabel('Mean predicted probability'); ax.set_ylabel('Fraction of positives')
@@ -426,7 +426,7 @@ ax.set_title(f'Discordance type distribution\n(n={len(discord_data)} discordant 
 # B: 不一致病例肿瘤亚型
 ax = axes[0,1]; panel_label(ax,'B')
 top_td = tumor_discord.most_common(10)
-ax.barh([t[:16] for t,_ in top_td[::-1]], [v for _,v in top_td[::-1]],
+ax.barh([TUMOR_EN.get(t, t)[:22] for t,_ in top_td[::-1]], [v for _,v in top_td[::-1]],
         color='#D55E00', alpha=0.82, edgecolor='white', lw=0.5)
 ax.set_xlabel('Number of discordant cases')
 ax.set_title('Discordant cases by tumour subtype (Top 10)', pad=8)

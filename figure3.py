@@ -82,11 +82,11 @@ with open('标注完成_200例.csv', encoding='utf-8-sig') as f:
     for row in reader:
         gold.append(row)
 
-# ── 逐字段评估 ────────────────────────────────────────────
+# ── Evaluate each extraction field ──────────────────────
 fields_config = [
-    ('检测方法',   '【标注】检测方法',         lambda r: detect_method(r['大体描述_原文'])),
-    ('检测结果',   '【标注】检测结果_阳性阴性', lambda r: detect_result(r['诊断结论_原文'], detect_method(r['大体描述_原文']), r['大体描述_原文'])),
-    ('融合伴侣',   '【标注】融合伴侣基因',      lambda r: detect_fusion(r['诊断结论_原文'], detect_method(r['大体描述_原文']), detect_result(r['诊断结论_原文'], detect_method(r['大体描述_原文']), r['大体描述_原文']))),
+    ('Testing method',  '【标注】检测方法',         lambda r: detect_method(r['大体描述_原文'])),
+    ('Test result',    '【标注】检测结果_阳性阴性', lambda r: detect_result(r['诊断结论_原文'], detect_method(r['大体描述_原文']), r['大体描述_原文'])),
+    ('Fusion partner', '【标注】融合伴侣基因',      lambda r: detect_fusion(r['诊断结论_原文'], detect_method(r['大体描述_原文']), detect_result(r['诊断结论_原文'], detect_method(r['大体描述_原文']), r['大体描述_原文']))),
 ]
 
 metrics = {}
@@ -204,16 +204,19 @@ ax_b.text(len(field_names)-0.5, 0.955, '0.95 threshold', color='red', fontsize=8
 ax_b.spines['top'].set_visible(False)
 ax_b.spines['right'].set_visible(False)
 
-# ── Panel C: 检测方法混淆矩阵 ────────────────────────────
+# ── Panel C: Testing method confusion matrix ─────────────
 ax_c = fig.add_subplot(3, 3, 4)
-m_data = metrics['检测方法']
+m_data = metrics['Testing method']
+LABEL_EN = {'FISH':'FISH','RNA-NGS':'RNA-NGS','DNA-NGS':'DNA-NGS','\u4f1a\u8bca':'Consultation',
+            '\u65e0\u6cd5\u5224\u65ad':'Indeterminate'}
 labels_cm = sorted(set(m_data['y_true']))
+labels_cm_en = [LABEL_EN.get(l, l) for l in labels_cm]
 cm = confusion_matrix(m_data['y_true'], m_data['y_pred'], labels=labels_cm)
 im = ax_c.imshow(cm, cmap='Blues', aspect='auto')
 ax_c.set_xticks(range(len(labels_cm)))
 ax_c.set_yticks(range(len(labels_cm)))
-ax_c.set_xticklabels(labels_cm, rotation=30, ha='right', fontsize=9)
-ax_c.set_yticklabels(labels_cm, fontsize=9)
+ax_c.set_xticklabels(labels_cm_en, rotation=30, ha='right', fontsize=9)
+ax_c.set_yticklabels(labels_cm_en, fontsize=9)
 ax_c.set_xlabel('Predicted', fontsize=10)
 ax_c.set_ylabel('Gold standard', fontsize=10)
 ax_c.set_title(f'C  Confusion matrix – testing method\n(Accuracy={m_data["accuracy"]:.1f}%)', fontsize=11, fontweight='bold', loc='left')
@@ -233,20 +236,20 @@ ax_d.set_title('D  Representative report parsing examples', fontsize=11, fontwei
 examples = [
     {
         'type': 'RNA-NGS (Positive)',
-        'input': '大体描述: 肿瘤常见基因易位检测\n诊断结论: 显示SS18基因易位(SS18 exon10::SSX1 exon2)。\n本检测使用RNA测序分析...',
-        'output': '检测方法: RNA-NGS ✓\n检测结果: 阳性 ✓\n融合伴侣: SS18-SSX1 ✓\n治疗靶点: 无',
+        'input': 'Description: RNA fusion gene testing\nConclusion: SS18 gene rearrangement detected\n(SS18 exon10::SSX1 exon2); RNA-seq based',
+        'output': 'Testing method: RNA-NGS ✓\nResult: Positive ✓\nFusion partner: SS18-SSX1 ✓\nTherapeutic target: None',
         'color': '#E8F5E9', 'border': '#2E7D32'
     },
     {
         'type': 'FISH (MDM2 amplification)',
-        'input': '大体描述: MDM2荧光染色体原位杂交检查(FISH)\n诊断结论: MDM2信号/核平均数：8.6\nCEP12染色体探针/核平均数：2.3\nMDM2/CEP12比值=3.74',
-        'output': '检测方法: FISH ✓\n检测基因: MDM2 ✓\n检测结果: 阳性 (ratio=3.74≥2.0) ✓\n治疗靶点: 无',
+        'input': 'Description: MDM2 FISH\n(fluorescence in situ hybridisation)\nConclusion: MDM2/nucleus: 8.6;\nCEP12/nucleus: 2.3; MDM2/CEP12 ratio=3.74',
+        'output': 'Testing method: FISH ✓\nTarget gene: MDM2 ✓\nResult: Positive (ratio=3.74≥2.0) ✓\nTherapeutic target: None',
         'color': '#E3F2FD', 'border': '#1565C0'
     },
     {
-        'type': 'DNA-NGS (Multi-gene)',
-        'input': '大体描述: EGFR基因 KRAS基因 BRAF基因...\n诊断结论: 显示TP53基因第5号外显子突变(35.2%)；\n显示MDM2基因扩增(CN=28.1)；TMB: 12个突变/Mb',
-        'output': '检测方法: DNA-NGS ✓\n检测结果: 阳性 ✓\n突变类型: TP53(mut)/MDM2(amp) ✓\n治疗靶点: TMB-H ✓',
+        'type': 'DNA-NGS (Multi-gene panel)',
+        'input': 'Description: EGFR, KRAS, BRAF gene panel\nConclusion: TP53 exon 5 mutation (VAF 35.2%);\nMDM2 amplification (CN=28.1);\nTMB: 12 mutations/Mb',
+        'output': 'Testing method: DNA-NGS ✓\nResult: Positive ✓\nMutation type: TP53(mut)/MDM2(amp) ✓\nTherapeutic target: TMB-H ✓',
         'color': '#FFF3E0', 'border': '#E65100'
     },
 ]
@@ -279,9 +282,9 @@ for i, ex in enumerate(examples):
 # ── Panel E: 错误分析气泡图 ──────────────────────────────
 ax_e = fig.add_subplot(3, 3, 7)
 error_types = {
-    'Method\nmisclassification': len(error_cases['检测方法']),
-    'Result\nmisclassification': len(error_cases['检测结果']),
-    'Fusion partner\nerror': len(error_cases['融合伴侣']),
+    'Method\nmisclassification': len(error_cases['Testing method']),
+    'Result\nmisclassification': len(error_cases['Test result']),
+    'Fusion partner\nerror': len(error_cases['Fusion partner']),
     'Full-width\ncharacter': 3,
     'Ambiguous\nreport': 2,
 }

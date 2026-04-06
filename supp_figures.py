@@ -16,7 +16,8 @@ from sklearn.metrics import roc_auc_score, roc_curve, auc
 import scipy.stats as stats
 
 warnings.filterwarnings('ignore')
-plt.rcParams['font.family'] = ['Microsoft YaHei', 'SimHei', 'DejaVu Sans']
+from plot_style import TUMOR_EN
+plt.rcParams['font.family'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ── 读取数据 ──────────────────────────────────────────────
@@ -78,7 +79,7 @@ ax.spines['top'].set_visible(False); ax.spines['right'].set_visible(False)
 tumors = Counter(r['肿瘤类型'] for r in data if r['肿瘤类型'] not in ['待明确',''])
 ax = axes[1, 0]
 top_t = tumors.most_common(12)
-ax.barh([t[:14] for t, _ in top_t], [v for _, v in top_t],
+ax.barh([TUMOR_EN.get(t, t)[:22] for t, _ in top_t], [v for _, v in top_t],
         color='#4CAF50', alpha=0.8, edgecolor='white')
 ax.set_xlabel('Number of patients', fontsize=11)
 ax.set_title('D  Tumour subtype distribution (Top 12)', fontsize=11, fontweight='bold', loc='left')
@@ -95,7 +96,7 @@ bp = ax.boxplot(age_by_tumor, patch_artist=True,
 colors_box = plt.cm.Set3(np.linspace(0, 1, len(top5_tumors)))
 for patch, col in zip(bp['boxes'], colors_box):
     patch.set_facecolor(col)
-ax.set_xticklabels([t[:10] for t in top5_tumors], rotation=30, ha='right', fontsize=8)
+ax.set_xticklabels([TUMOR_EN.get(t, t)[:16] for t in top5_tumors], rotation=30, ha='right', fontsize=8)
 ax.set_ylabel('Age (years)', fontsize=11)
 ax.set_title('E  Age distribution by tumour subtype', fontsize=11, fontweight='bold', loc='left')
 ax.spines['top'].set_visible(False); ax.spines['right'].set_visible(False)
@@ -418,7 +419,7 @@ for i, cls_name in enumerate(le2.classes_):
     fpr_i, tpr_i, _ = roc_curve(y_bin_te[:, i], probs_s6[:, i])
     roc_auc_i = auc(fpr_i, tpr_i)
     ax.plot(fpr_i, tpr_i, color=cmap_s6(i), lw=1.8,
-            label=f'{cls_name[:16]} (AUC={roc_auc_i:.2f})')
+            label=f'{TUMOR_EN.get(cls_name, cls_name)[:18]} (AUC={roc_auc_i:.2f})')
 ax.plot([0,1],[0,1],'k--', alpha=0.4)
 ax.set_xlabel('False Positive Rate', fontsize=12)
 ax.set_ylabel('True Positive Rate', fontsize=12)
@@ -451,7 +452,7 @@ for plot_i in range(n_show):
     colors_s7 = ['#2196F3' if 'F:' in n else '#4CAF50' if 'R:' in n or 'Fus:' in n
                  else '#FF9800' if 'D:' in n else '#9E9E9E' for n in top_names]
     ax.barh(top_names[::-1], top_vals[::-1], color=colors_s7[::-1], edgecolor='white')
-    ax.set_title(le2.classes_[plot_i][:20], fontsize=10, fontweight='bold')
+    ax.set_title(TUMOR_EN.get(le2.classes_[plot_i], le2.classes_[plot_i])[:26], fontsize=10, fontweight='bold')
     ax.set_xlabel('Mean |SHAP|', fontsize=9)
     ax.spines['top'].set_visible(False); ax.spines['right'].set_visible(False)
 plt.tight_layout()
@@ -482,7 +483,7 @@ ax.set_title('A  Discordance type distribution\n(n=355 discordant cases)',
 
 ax = axes_s8[1]
 top_td = tumor_discord.most_common(10)
-ax.barh([t[:16] for t, _ in top_td[::-1]], [v for _, v in top_td[::-1]],
+ax.barh([TUMOR_EN.get(t, t)[:22] for t, _ in top_td[::-1]], [v for _, v in top_td[::-1]],
         color='#E53935', alpha=0.8, edgecolor='white')
 ax.set_xlabel('Number of discordant cases', fontsize=11)
 ax.set_title('B  Discordant cases by tumour subtype (Top 10)',
@@ -559,7 +560,8 @@ for cls_i in range(min(3, n_classes)):
     prob_true, prob_pred = sk_cal_curve(y_bin_te[:, cls_i], probs_s6[:, cls_i],
                                          n_bins=8, strategy='quantile')
     ax.plot(prob_pred, prob_true, 'o-', lw=2,
-            label=le2.classes_[cls_i][:16])
+            label=le2.classes_[cls_i][:16] if le2.classes_[cls_i] not in TUMOR_EN
+            else TUMOR_EN[le2.classes_[cls_i]][:20])
 ax.plot([0,1],[0,1],'k--', alpha=0.5, label='Perfect calibration')
 ax.set_xlabel('Mean predicted probability', fontsize=11)
 ax.set_ylabel('Fraction of positives', fontsize=11)

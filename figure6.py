@@ -20,7 +20,8 @@ from sklearn.metrics import accuracy_score
 import scipy.stats as stats
 
 warnings.filterwarnings('ignore')
-plt.rcParams['font.family'] = ['Microsoft YaHei', 'SimHei', 'DejaVu Sans']
+from plot_style import TUMOR_EN
+plt.rcParams['font.family'] = ['Arial', 'DejaVu Sans']
 plt.rcParams['axes.unicode_minus'] = False
 
 # ── 读取数据 ──────────────────────────────────────────────
@@ -245,7 +246,7 @@ im = ax_c.imshow(heatmap_data, cmap=cmap_c, vmin=0.5, vmax=3.5, aspect='auto')
 ax_c.set_xticks(range(len(scenario_cols)))
 ax_c.set_xticklabels(scenario_cols, fontsize=11)
 ax_c.set_yticks(range(len(tumor_rows)))
-ax_c.set_yticklabels([t[:12] for t in tumor_rows], fontsize=9)
+ax_c.set_yticklabels([TUMOR_EN.get(t, t)[:24] for t in tumor_rows], fontsize=9)
 ax_c.set_title('C  Recommended strategy by clinical scenario', fontsize=11, fontweight='bold', loc='left')
 for i in range(len(tumor_rows)):
     for j in range(len(scenario_cols)):
@@ -303,7 +304,7 @@ im_e = ax_e.imshow(matrix_norm, cmap='Blues', aspect='auto', vmin=0, vmax=1)
 ax_e.set_xticks(range(len(top_strategies)))
 ax_e.set_xticklabels([s[:12] for s in top_strategies], rotation=30, ha='right', fontsize=8)
 ax_e.set_yticks(range(len(tumor_types_e)))
-ax_e.set_yticklabels([t[:12] for t in tumor_types_e], fontsize=9)
+ax_e.set_yticklabels([TUMOR_EN.get(t, t)[:24] for t in tumor_types_e], fontsize=9)
 ax_e.set_title('E  Testing strategy patterns by tumour subtype\n(row-normalised frequency)',
                fontsize=11, fontweight='bold', loc='left')
 for i in range(len(tumor_types_e)):

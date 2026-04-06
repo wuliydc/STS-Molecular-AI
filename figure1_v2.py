@@ -6,7 +6,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 from collections import defaultdict, Counter
-from plot_style import apply_style, save_figure, panel_label, METHOD_COLORS
+from plot_style import apply_style, save_figure, panel_label, METHOD_COLORS, TUMOR_EN
 
 apply_style()
 
@@ -134,7 +134,7 @@ for i, tumor in enumerate(top_tumors):
                       fontsize=7.5, fontweight='bold', color='white', zorder=4)
 ax_c.set_xticks(range(3)); ax_c.set_xticklabels(methods_list)
 ax_c.set_yticks(range(len(top_tumors)))
-ax_c.set_yticklabels([t[:14] for t in top_tumors], fontsize=8)
+ax_c.set_yticklabels([TUMOR_EN.get(t, t)[:22] for t in top_tumors], fontsize=8)
 ax_c.set_title('Testing method by tumour subtype', pad=8)
 ax_c.grid(True, alpha=0.2, zorder=0)
 ax_c.set_xlim(-0.6, 2.6); ax_c.set_ylim(-0.6, len(top_tumors)-0.4)
@@ -183,7 +183,7 @@ ax_f = fig.add_subplot(gs[1, 2])
 panel_label(ax_f, 'F')
 top12 = tumor_counts.most_common(12)
 colors_f = plt.cm.tab20(np.linspace(0, 1, len(top12)))
-ax_f.barh([t[:16] for t,_ in top12[::-1]], [v for _,v in top12[::-1]],
+ax_f.barh([TUMOR_EN.get(t, t)[:24] for t,_ in top12[::-1]], [v for _,v in top12[::-1]],
           color=colors_f, edgecolor='white', linewidth=0.5)
 ax_f.set_xlabel('Number of patients')
 ax_f.set_title('Tumour subtype distribution (Top 12)', pad=8)
