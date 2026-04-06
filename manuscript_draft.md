@@ -10,7 +10,7 @@
 
 **Results:** The NLP framework achieved 99.5% accuracy for testing method classification and 98.5% for result extraction. RNA-NGS identified fusion genes in 298 of 1,052 (28.3%) FISH-negative patients, representing a substantial incremental diagnostic gain. The overall FISH–RNA-NGS discordance rate was 33.7% (355/1,052); discordant Type B (FISH−/RNA+) accounted for 28.3% and was associated with younger patient age (median 52 vs 55 years, p=0.010). The multi-modal AI classifier achieved a macro-AUC of 0.780 (logistic regression), with RNA-NGS contributing the largest incremental gain in ablation analysis (ΔAUC=−0.060 when removed). SHAP analysis identified FUS-DDIT3, NAB2-STAT6, and COL1A1-PDGFB fusions as the most discriminative features. DNA-NGS identified actionable therapeutic targets in 89 of 567 (15.7%) three-method patients, including TMB-H (n=53), ALK fusions (n=17), and NTRK fusions (n=9). The discordance prediction model achieved AUC=0.839.
 
-**Conclusions:** Multi-modal molecular testing with AI-driven integration substantially improves STS diagnosis and therapeutic target identification. The open-source STS-Molecular-AI tool enables real-time clinical decision support and is freely available at [GitHub URL].
+**Conclusions:** Multi-modal molecular testing with AI-driven integration substantially improves STS diagnosis and therapeutic target identification. The open-source STS-Molecular-AI tool enables real-time clinical decision support and is freely available at https://github.com/wuliydc/STS-Molecular-AI.
 
 **Keywords:** soft tissue sarcoma; FISH; RNA sequencing; DNA sequencing; artificial intelligence; natural language processing; fusion gene; diagnostic decision support
 
@@ -64,7 +64,7 @@ A decision tree classifier (max depth=4, min samples per leaf=10) was trained to
 
 ### STS-Molecular-AI tool
 
-The clinical decision support tool was implemented as a RESTful API using FastAPI (Python), with the trained logistic regression model serialised for inference. The tool accepts structured clinical and molecular inputs and returns: (1) top-3 differential diagnoses with probabilities; (2) testing strategy recommendations; (3) actionable therapeutic targets; and (4) SHAP-based feature contribution explanations. Source code and model weights are available at [GitHub URL] under MIT licence.
+The clinical decision support tool was implemented as a RESTful API using FastAPI (Python), with the trained logistic regression model serialised for inference. The tool accepts structured clinical and molecular inputs and returns: (1) top-3 differential diagnoses with probabilities; (2) testing strategy recommendations; (3) actionable therapeutic targets; and (4) SHAP-based feature contribution explanations. Source code and model weights are available at https://github.com/wuliydc/STS-Molecular-AI under MIT licence.
 
 ### Statistical analysis
 
@@ -116,7 +116,7 @@ The decision tree strategy recommendation model achieved 66.0% accuracy in predi
 
 ### STS-Molecular-AI clinical decision support tool
 
-The STS-Molecular-AI tool integrates the NLP framework, multi-modal classifier, and strategy optimisation model into a unified RESTful API. For a representative case (female, age 45, FISH-negative for DDIT3, RNA-NGS positive for FUS-DDIT3 fusion), the tool correctly returned myxoid liposarcoma as the top diagnosis (confidence 87.3%), recommended FISH+RNA-NGS as sufficient testing strategy, and identified no actionable drug targets (Figure 7A). On the independent holdout set, the tool achieved macro-AUC of 0.761 (Figure 7B). The tool is available at [GitHub URL] under MIT licence and can be deployed locally to preserve patient data privacy.
+The STS-Molecular-AI tool integrates the NLP framework, multi-modal classifier, and strategy optimisation model into a unified RESTful API. For a representative case (female, age 45, FISH-negative for DDIT3, RNA-NGS positive for FUS-DDIT3 fusion), the tool correctly returned myxoid liposarcoma as the top diagnosis (confidence 87.3%), recommended FISH+RNA-NGS as sufficient testing strategy, and identified no actionable drug targets (Figure 7A). On the independent holdout set, the tool achieved macro-AUC of 0.761 (Figure 7B). The tool is available at https://github.com/wuliydc/STS-Molecular-AI under MIT licence and can be deployed locally to preserve patient data privacy.
 
 ---
 
@@ -144,11 +144,11 @@ We demonstrate that multi-modal molecular testing with AI-driven integration sub
 
 ## Data availability
 
-The structured patient-level dataset (de-identified) and all analysis code are available at [GitHub URL]. The STS-Molecular-AI tool is freely available under MIT licence.
+The structured patient-level dataset (de-identified) and all analysis code are available at https://github.com/wuliydc/STS-Molecular-AI. The STS-Molecular-AI tool is freely available under MIT licence.
 
 ## Code availability
 
-All Python scripts for data processing, NLP framework, AI model training, figure generation, and the FastAPI backend are available at [GitHub URL].
+All Python scripts for data processing, NLP framework, AI model training, figure generation, and the FastAPI backend are available at https://github.com/wuliydc/STS-Molecular-AI.
 
 ## Acknowledgements
 

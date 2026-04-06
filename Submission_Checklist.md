@@ -46,8 +46,8 @@
 - [x] AI classifier code (figure4.py, editor_fixes.py)
 - [x] Online tool backend (sts_ai_app/app.py)
 - [x] Trained model (sts_ai_model.pkl)
-- [ ] GitHub repository: to be created
-- [ ] DOI for dataset: to be registered
+- [x] GitHub repository: https://github.com/wuliydc/STS-Molecular-AI
+- [ ] DOI for dataset: to be registered (Zenodo)
 
 ## Outstanding Items Before Submission
 1. [ ] Expand references to 40-50 (add recent STS molecular diagnostics papers)
