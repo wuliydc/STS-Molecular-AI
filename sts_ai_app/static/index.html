@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STS-Molecular-AI | Soft Tissue Sarcoma Diagnostic Tool</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #F5F7FA; color: #333; }
+  header { background: #0072B2; color: white; padding: 16px 32px; display: flex; align-items: center; gap: 16px; }
+  header h1 { font-size: 1.4rem; font-weight: 700; }
+  header p  { font-size: 0.85rem; opacity: 0.85; }
+  .badge { background: rgba(255,255,255,0.2); border-radius: 4px; padding: 2px 8px; font-size: 0.75rem; }
+  .container { max-width: 1100px; margin: 24px auto; padding: 0 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+  .card h2 { font-size: 1rem; color: #0072B2; margin-bottom: 14px; border-bottom: 2px solid #E3F2FD; padding-bottom: 8px; }
+  label { display: block; font-size: 0.85rem; color: #555; margin-bottom: 4px; margin-top: 10px; font-weight: 600; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid #DDD; border-radius: 6px; font-size: 0.9rem; }
+  input:focus, select:focus { outline: none; border-color: #0072B2; box-shadow: 0 0 0 2px rgba(0,114,178,0.15); }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  button { width: 100%; margin-top: 16px; padding: 12px; background: #0072B2; color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+  button:hover { background: #005A8E; }
+  button:disabled { background: #90A4AE; cursor: not-allowed; }
+  .result-section { display: none; }
+  .diagnosis-box { background: #E8F5E9; border: 2px solid #009E73; border-radius: 8px; padding: 14px; margin-bottom: 12px; }
+  .diagnosis-box .name { font-size: 1.3rem; font-weight: 700; color: #1B5E20; }
+  .diagnosis-box .conf { font-size: 0.9rem; color: #009E73; margin-top: 4px; }
+  .diff-item { display: flex; align-items: center; gap: 10px; margin: 6px 0; }
+  .diff-bar { height: 18px; border-radius: 4px; min-width: 4px; transition: width 0.5s; }
+  .diff-label { font-size: 0.85rem; color: #555; min-width: 160px; }
+  .diff-pct { font-size: 0.85rem; font-weight: 700; }
+  .target-item { background: #FCE4EC; border-left: 4px solid #C62828; border-radius: 4px; padding: 8px 12px; margin: 6px 0; font-size: 0.85rem; }
+  .target-item .gene { font-weight: 700; color: #B71C1C; }
+  .rec-item { background: #FFF9C4; border-left: 4px solid #F9A825; border-radius: 4px; padding: 8px 12px; margin: 6px 0; font-size: 0.85rem; color: #555; }
+  .shap-bar-pos { background: #D55E00; }
+  .shap-bar-neg { background: #0072B2; }
+  .error-box { background: #FFEBEE; border: 1px solid #EF9A9A; border-radius: 6px; padding: 12px; color: #C62828; font-size: 0.9rem; display: none; }
+  .loading { text-align: center; color: #0072B2; font-size: 0.9rem; display: none; }
+  footer { text-align: center; padding: 20px; color: #999; font-size: 0.8rem; }
+  .disclaimer { background: #FFF3E0; border: 1px solid #FFB74D; border-radius: 6px; padding: 10px 14px; font-size: 0.8rem; color: #E65100; margin-bottom: 16px; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>STS-Molecular-AI</h1>
+    <p>Soft Tissue Sarcoma Molecular Diagnostic Decision Support</p>
+  </div>
+  <span class="badge">v1.0.0</span>
+  <span class="badge">Research Use Only</span>
+</header>
+
+<div class="container">
+  <!-- Input Panel -->
+  <div class="card">
+    <h2>📋 Patient Input</h2>
+    <div class="disclaimer">⚠️ For research use only. Not for clinical diagnosis. Always integrate with morphology and IHC.</div>
+
+    <div class="row2">
+      <div>
+        <label>Age (years)</label>
+        <input type="number" id="age" value="50" min="1" max="100">
+      </div>
+      <div>
+        <label>Sex</label>
+        <select id="sex">
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+        </select>
+      </div>
+    </div>
+
+    <label>FISH Result</label>
+    <select id="fish_result">
+      <option value="">Not performed</option>
+      <option value="阳性">Positive</option>
+      <option value="阴性">Negative</option>
+    </select>
+
+    <label>FISH Gene Target</label>
+    <select id="fish_gene">
+      <option value="">Select gene</option>
+      <option value="DDIT3">DDIT3 (myxoid liposarcoma)</option>
+      <option value="MDM2">MDM2 (well/dediff liposarcoma)</option>
+      <option value="SS18">SS18 (synovial sarcoma)</option>
+      <option value="EWSR1">EWSR1 (Ewing/round cell)</option>
+      <option value="ALK">ALK (IMT)</option>
+      <option value="NTRK1">NTRK1</option>
+      <option value="NTRK2">NTRK2</option>
+      <option value="NTRK3">NTRK3</option>
+      <option value="TFE3">TFE3</option>
+    </select>
+
+    <label>RNA-NGS Result</label>
+    <select id="rna_result">
+      <option value="">Not performed</option>
+      <option value="阳性">Positive</option>
+      <option value="阴性">Negative</option>
+    </select>
+
+    <label>RNA-NGS Fusion Partner (if positive)</label>
+    <select id="rna_fusion">
+      <option value="">None / Unknown</option>
+      <option value="FUS-DDIT3">FUS-DDIT3</option>
+      <option value="EWSR1-DDIT3">EWSR1-DDIT3</option>
+      <option value="SS18-SSX1">SS18-SSX1</option>
+      <option value="SS18-SSX2">SS18-SSX2</option>
+      <option value="NAB2-STAT6">NAB2-STAT6</option>
+      <option value="COL1A1-PDGFB">COL1A1-PDGFB</option>
+      <option value="EML4-ALK">EML4-ALK</option>
+      <option value="ETV6-NTRK3">ETV6-NTRK3</option>
+      <option value="ASPSCR1-TFE3">ASPSCR1-TFE3</option>
+      <option value="HEY1-NCOA2">HEY1-NCOA2</option>
+    </select>
+
+    <label>DNA-NGS Result</label>
+    <select id="dna_result">
+      <option value="">Not performed</option>
+      <option value="阳性">Positive</option>
+      <option value="阴性">Negative</option>
+    </select>
+
+    <label>DNA-NGS Mutations (if positive)</label>
+    <input type="text" id="dna_mutations" placeholder="e.g. TP53(mut)/MDM2(amp)">
+
+    <div class="row2">
+      <div>
+        <label>TMB-High (≥10 mut/Mb)</label>
+        <select id="tmb_high">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+      <div>
+        <label>MSI-High</label>
+        <select id="msi_high">
+          <option value="false">No</option>
+          <option value="true">Yes</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="analyseBtn" onclick="analyse()">▶ Analyse</button>
+    <div class="loading" id="loading">Analysing...</div>
+    <div class="error-box" id="errorBox"></div>
+  </div>
+
+  <!-- Output Panel -->
+  <div class="card result-section" id="resultPanel">
+    <h2>🔬 Diagnostic Output</h2>
+
+    <div class="diagnosis-box" id="topDiag">
+      <div class="name" id="diagName">—</div>
+      <div class="conf" id="diagConf">—</div>
+    </div>
+
+    <h2 style="margin-top:14px">Differential Diagnosis</h2>
+    <div id="diffList"></div>
+
+    <h2 style="margin-top:14px">🎯 Therapeutic Targets</h2>
+    <div id="targetList"><p style="color:#999;font-size:0.85rem">None identified</p></div>
+
+    <h2 style="margin-top:14px">📋 Testing Recommendation</h2>
+    <div id="recList"></div>
+
+    <h2 style="margin-top:14px">🧠 SHAP Explanation</h2>
+    <div id="shapNote" style="font-size:0.8rem;color:#777;font-style:italic">
+      Feature contributions are based on the trained logistic regression model.
+      Positive values (orange) increase probability of top diagnosis;
+      negative values (blue) decrease it.
+    </div>
+  </div>
+</div>
+
+<footer>
+  STS-Molecular-AI v1.0.0 &nbsp;|&nbsp; For research use only &nbsp;|&nbsp;
+  <a href="/docs" style="color:#0072B2">API Documentation</a> &nbsp;|&nbsp;
+  Model: Logistic Regression (826 patients, 15 subtypes)
+</footer>
+
+<script>
+async function analyse() {
+  const btn = document.getElementById('analyseBtn');
+  const loading = document.getElementById('loading');
+  const errorBox = document.getElementById('errorBox');
+  btn.disabled = true; loading.style.display = 'block'; errorBox.style.display = 'none';
+
+  const payload = {
+    age:           parseFloat(document.getElementById('age').value) || 50,
+    sex:           document.getElementById('sex').value,
+    fish_result:   document.getElementById('fish_result').value,
+    fish_gene:     document.getElementById('fish_gene').value,
+    rna_result:    document.getElementById('rna_result').value,
+    rna_fusion:    document.getElementById('rna_fusion').value,
+    dna_result:    document.getElementById('dna_result').value,
+    dna_mutations: document.getElementById('dna_mutations').value,
+    tmb_high:      document.getElementById('tmb_high').value === 'true',
+    msi_high:      document.getElementById('msi_high').value === 'true',
+  };
+
+  try {
+    const resp = await fetch('/predict', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if (!resp.ok) throw new Error(`Server error: ${resp.status}`);
+    const data = await resp.json();
+    renderResult(data);
+  } catch(e) {
+    errorBox.textContent = 'Error: ' + e.message;
+    errorBox.style.display = 'block';
+  } finally {
+    btn.disabled = false; loading.style.display = 'none';
+  }
+}
+
+function renderResult(data) {
+  document.getElementById('resultPanel').style.display = 'block';
+
+  // Top diagnosis
+  document.getElementById('diagName').textContent = data.top_diagnosis;
+  document.getElementById('diagConf').textContent =
+    `Confidence: ${(data.confidence*100).toFixed(1)}%  |  Model: Logistic Regression`;
+
+  // Differential
+  const diffList = document.getElementById('diffList');
+  diffList.innerHTML = '';
+  const colors = ['#009E73','#E69F00','#D55E00','#56B4E9','#CC79A7'];
+  data.differential.forEach((d,i) => {
+    const pct = (d.probability*100).toFixed(1);
+    diffList.innerHTML += `
+      <div class="diff-item">
+        <div class="diff-label">${d.diagnosis}</div>
+        <div class="diff-bar ${colors[i]?'':'#999'}" style="width:${Math.max(d.probability*200,4)}px;background:${colors[i]||'#999'}"></div>
+        <div class="diff-pct" style="color:${colors[i]||'#999'}">${pct}%</div>
+      </div>`;
+  });
+
+  // Targets
+  const targetList = document.getElementById('targetList');
+  if (data.therapeutic_targets && data.therapeutic_targets.length > 0) {
+    targetList.innerHTML = data.therapeutic_targets.map(t =>
+      `<div class="target-item"><span class="gene">${t.gene}</span> → ${t.drug}</div>`
+    ).join('');
+  } else {
+    targetList.innerHTML = '<p style="color:#999;font-size:0.85rem">No actionable targets identified</p>';
+  }
+
+  // Recommendations
+  const recList = document.getElementById('recList');
+  recList.innerHTML = data.testing_recommendation.map(r =>
+    `<div class="rec-item">${r}</div>`
+  ).join('');
+}
+</script>
+</body>
+</html>

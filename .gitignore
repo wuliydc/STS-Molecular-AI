@@ -1,0 +1,40 @@
+# Patient data - DO NOT COMMIT (privacy protection)
+*.csv
+structured_patient_data.json
+患者级结构化数据集.csv
+结构化数据集_全量.csv
+合并汇总.csv
+软组织汇总_cleaned.csv
+DDIT3合并_cleaned.csv
+标注工作表_200例.csv
+标注完成_200例.csv
+不一致病例详细表.csv
+
+# Trained model binary (large file)
+sts_ai_model.pkl
+hf_space/sts_ai_model.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.env
+.venv
+venv/
+*.egg-info/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Output files
+*.png
+*.tiff
+*.tif
+*.pdf
+figures/
+output/
