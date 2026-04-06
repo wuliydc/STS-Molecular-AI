@@ -94,32 +94,32 @@ TUMOR_EN = {
     # Small round cell tumours
     '尤文肉瘤':             'Ewing sarcoma',
     '圆细胞肉瘤':           'Round cell sarcoma',
-    '促纤维增生性小圆细胞肿瘤': 'DSRCT',
+    '促纤维增生性小圆细胞肿瘤': 'Desmoplastic small round cell tumour',
     # Rhabdomyosarcoma
     '横纹肌肉瘤':           'Rhabdomyosarcoma',
-    '胚胎性横纹肌肉瘤':     'Embryonal RMS',
-    '腺泡状横纹肌肉瘤':     'Alveolar RMS',
+    '胚胎性横纹肌肉瘤':     'Embryonal rhabdomyosarcoma',
+    '腺泡状横纹肌肉瘤':     'Alveolar rhabdomyosarcoma',
     # Leiomyosarcoma
     '平滑肌肉瘤':           'Leiomyosarcoma',
     # Undifferentiated
-    '未分化肉瘤':           'Undifferentiated pleomorphic sarcoma',
+    '未分化肉瘤':           'Undifferentiated sarcoma, NOS',
     '未分化多形性肉瘤':     'Undifferentiated pleomorphic sarcoma',
     # Bone-forming
     '骨肉瘤':               'Osteosarcoma',
     '软骨肉瘤':             'Chondrosarcoma',
     # Fibroblastic / myofibroblastic
     '孤立性纤维性肿瘤':     'Solitary fibrous tumour',
-    '梭形细胞肿瘤':         'Spindle cell sarcoma',
+    '梭形细胞肿瘤':         'Spindle cell tumour, NOS',
     '纤维肉瘤':             'Fibrosarcoma',
     '低级别纤维肉瘤':       'Low-grade fibrosarcoma',
     '黏液纤维肉瘤':         'Myxofibrosarcoma',
-    '隆突性皮肤纤维肉瘤':   'DFSP',
-    '炎性肌纤维母细胞瘤':   'IMT',
+    '隆突性皮肤纤维肉瘤':   'Dermatofibrosarcoma protuberans',
+    '炎性肌纤维母细胞瘤':   'Inflammatory myofibroblastic tumour',
     '肌纤维母细胞肿瘤':     'Myofibroblastic tumour',
     # Vascular
     '血管肉瘤':             'Angiosarcoma',
     # Nerve sheath
-    '恶性外周神经鞘瘤':     'MPNST',
+    '恶性外周神经鞘瘤':     'Malignant peripheral nerve sheath tumour',
     # Clear cell / epithelioid / alveolar soft parts
     '腺泡状软组织肉瘤':     'Alveolar soft part sarcoma',
     '透明细胞肉瘤':         'Clear cell sarcoma',
