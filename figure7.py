@@ -189,7 +189,7 @@ ax_a.text(10.55, 6.3, 'Differential Diagnosis', ha='center', fontsize=9,
           fontweight='bold', color='#333')
 diag_list = [('Myxoid Liposarcoma', 0.873, '#4CAF50'),
              ('Dediff. Liposarcoma', 0.082, '#FFC107'),
-             ('Undifferentiated sarcoma', 0.031, '#FF7043')]
+             ('Undifferentiated sarcoma, NOS', 0.031, '#FF7043')]
 for i, (diag, prob, col) in enumerate(diag_list):
     y_d = 5.9 - i * 0.38
     ax_a.barh(y_d, prob * 4.5, height=0.28, left=7.9, color=col, alpha=0.8)

@@ -78,7 +78,7 @@ All analyses were performed in Python 3.14 using scikit-learn 1.8.0, numpy 2.2.0
 
 Between January 2018 and December 2025, 12,385 molecular testing records were generated for 1,489 patients with suspected soft tissue sarcoma (Figure 1A). The cohort comprised 808 male and 679 female patients (median age 53 years, IQR 40–63). Testing volume increased substantially from 2018 (45 tests) to 2024–2025 (>2,600 tests per year), reflecting growing adoption of multi-modal molecular diagnostics (Figure 1B).
 
-FISH was the most frequently performed modality (3,221 tests, 1,384 patients), followed by RNA-NGS (1,205 tests, 1,061 patients) and DNA-NGS (833 tests, 600 patients). Among the 1,401 patients with at least one molecular test, 567 (40.5%) underwent all three modalities, 485 (34.6%) underwent FISH plus RNA-NGS, and 312 (22.3%) underwent FISH alone (Figure 1D). The most common tumour subtypes were liposarcoma (n=262 dedifferentiated, n=95 myxoid, n=50 well-differentiated), spindle cell soft tissue tumour (n=250), undifferentiated sarcoma (n=75), and leiomyosarcoma (n=51) (Figure 1C).
+FISH was the most frequently performed modality (3,221 tests, 1,384 patients), followed by RNA-NGS (1,205 tests, 1,061 patients) and DNA-NGS (833 tests, 600 patients). Among the 1,401 patients with at least one molecular test, 567 (40.5%) underwent all three modalities, 485 (34.6%) underwent FISH plus RNA-NGS, and 312 (22.3%) underwent FISH alone (Figure 1D). The most common tumour subtypes were liposarcoma (n=262 dedifferentiated, n=95 myxoid, n=50 well-differentiated), spindle cell tumour, NOS (n=250), undifferentiated sarcoma, NOS (n=75), and leiomyosarcoma (n=51) (Figure 1C).
 
 ### NLP framework performance
 
