@@ -10,9 +10,9 @@
 - [x] Results: all figures referenced in order
 - [x] Discussion: limitations section present
 - [x] References: 12 references (need to expand to 40-50 for submission)
-- [ ] Author contributions: to be completed
-- [ ] Competing interests: to be completed
-- [ ] Acknowledgements: to be completed
+- [x] Author contributions: completed (L.W., J.Y., W.L.)
+- [x] Competing interests: completed
+- [x] Acknowledgements: completed (placeholder for funding)
 
 ## Figures (latest versions)
 - [x] Figure 1 v3: CONSORT flowchart + colour-coded tumour subtypes
@@ -60,7 +60,7 @@
 4. [ ] Register dataset DOI (Zenodo or Figshare)
 5. [ ] External validation cohort (if available from collaborating institution)
 6. [ ] Native English editing (manuscript currently in English but may need polish)
-7. [ ] Cover letter (see cover_letter_template.md)
+7. [ ] Cover letter (see cover_letter.md — drafted, needs email address)
 
 ## Target Journal
 - Primary: Nature Communications (IF ~17)

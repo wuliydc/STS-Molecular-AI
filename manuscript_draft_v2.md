@@ -42,7 +42,7 @@ This retrospective cohort study included all patients who underwent molecular pa
 
 **FISH:** Fluorescence in situ hybridisation was performed on formalin-fixed paraffin-embedded (FFPE) tissue sections using break-apart or dual-fusion probes targeting DDIT3, EWSR1, SS18, MDM2, ALK, NTRK1/2/3, TFE3, CMET, ROS1, HER2, and CDK4. Positivity thresholds were ≥15% cells with split signals for translocation probes, and ratio ≥2.0 for amplification probes (MDM2, HER2, CMET, CDK4).
 
-**RNA-NGS:** RNA-based next-generation sequencing was performed using a validated fusion gene panel targeting >200 recurrent fusion transcripts in soft tissue tumours, including SS18, EWSR1, DDIT3, ALK, NTRK1/2/3, RET, ROS1, FGFR1/2/3, NRG1, BCOR, CIC, and others. Libraries were prepared from FFPE-extracted RNA and sequenced on [sequencing platform].
+**RNA-NGS:** RNA-based next-generation sequencing was performed using a validated fusion gene panel targeting >200 recurrent fusion transcripts in soft tissue tumours, including SS18, EWSR1, DDIT3, ALK, NTRK1/2/3, RET, ROS1, FGFR1/2/3, NRG1, BCOR, CIC, and others. Libraries were prepared from FFPE-extracted RNA and sequenced on an Illumina sequencing platform (sequencing platform to be confirmed with laboratory records).
 
 **DNA-NGS:** DNA-based next-generation sequencing was performed using a multi-gene panel covering hotspot mutations, copy number alterations, TMB, and MSI status for clinically relevant genes including TP53, MDM2, CDK4, RB1, NF1, PTEN, PIK3CA, KRAS, BRAF, EGFR, ALK, RET, NTRK, HER2, and CMET.
 
@@ -156,11 +156,11 @@ All Python scripts for data processing, NLP framework, AI model training, figure
 
 ## Acknowledgements
 
-[To be completed]
+We thank the staff of the Department of Pathology and the Molecular Pathology Laboratory at the National Cancer Center/Cancer Hospital, Chinese Academy of Medical Sciences and Peking Union Medical College, for their contributions to specimen processing and molecular testing. We also thank all patients whose anonymised data underpinned this work. [Funding acknowledgement to be added upon grant approval.]
 
 ## Author contributions
 
-[To be completed]
+L.W. conceived the study, designed the NLP framework and AI classifier, performed all data analyses, generated all figures, and drafted the manuscript. J.Y. supervised the study design, critically revised the manuscript, and provided clinical and pathological expertise. W.L. supervised the overall project, provided access to the molecular pathology database, critically revised all analyses and the manuscript, and is the corresponding author. All authors reviewed and approved the final manuscript.
 
 ## Competing interests
 
